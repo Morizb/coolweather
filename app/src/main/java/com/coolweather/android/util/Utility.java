@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Utility {
+    private static String response;
     /**
      * 解析和处理服务器返回的省级数据
      */

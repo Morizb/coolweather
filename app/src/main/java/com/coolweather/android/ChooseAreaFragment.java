@@ -1,7 +1,9 @@
 package com.coolweather.android;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ public class ChooseAreaFragment extends Fragment {
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private List<String> dataList = new ArrayList<>();
+
     /**
      * 省列表
      */
@@ -63,8 +66,8 @@ public class ChooseAreaFragment extends Fragment {
     /**
      * 当前选中的级别
      */
-    private int currentLeval;
-
+    private int currentLevel;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,10 +86,10 @@ public class ChooseAreaFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (currentLeval == LEVEL_PROVINCE) {
+                if (currentLevel == LEVEL_PROVINCE) {
                     selectedProvince = provinceList.get(position);
                     queryCities();
-                } else if (currentLeval == LEVEL_CITY) {
+                } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
                 }
@@ -95,9 +98,9 @@ public class ChooseAreaFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentLeval == LEVEL_COUNTY) {
+                if (currentLevel == LEVEL_COUNTY) {
                     queryCities();
-                } else if (currentLeval == LEVEL_CITY) {
+                } else if (currentLevel == LEVEL_CITY) {
                     queryProvinces();
                 }
             }
@@ -119,7 +122,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentLeval = LEVEL_PROVINCE;
+            currentLevel = LEVEL_PROVINCE;
         } else {
             String address = "http://guolin.tech/api/china";
             queryFromServer(address, "province");
@@ -140,7 +143,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentLeval = LEVEL_CITY;
+            currentLevel = LEVEL_CITY;
         } else {
             int provinceCode = selectedProvince.getProvinceCode();
             String address = "http://guolin.tech/api/china/" + provinceCode;
@@ -162,7 +165,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentLeval = LEVEL_COUNTY;
+            currentLevel = LEVEL_COUNTY;
         } else {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
@@ -209,6 +212,7 @@ public class ChooseAreaFragment extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 getActivity().runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void run() {
                         closeProgressDialog();
