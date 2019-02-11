@@ -5,6 +5,14 @@
     android:layout_height="?attr/actionBarSize">
 
     <TextView
+        android:id="@+id/title_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#fff"
+        android:textSize="20sp"/>
+
+    <TextView
         android:id="@+id/title_update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
