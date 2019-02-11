@@ -1,7 +1,5 @@
 package com.coolweather.android.gson;
 
-import android.text.style.UpdateAppearance;
-
 import com.google.gson.annotations.SerializedName;
 
 public class Basic {
