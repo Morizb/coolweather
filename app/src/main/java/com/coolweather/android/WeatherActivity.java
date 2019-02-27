@@ -1,5 +1,6 @@
 package com.coolweather.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.coolweather.android.gson.Forecast;
 import com.coolweather.android.gson.Weather;
+import com.coolweather.android.service.AutoUpdateService;
 import com.coolweather.android.util.HttpUtil;
 import com.coolweather.android.util.Utility;
 
@@ -121,7 +123,8 @@ public class WeatherActivity extends AppCompatActivity {
      */
     public void requestWeather(final String weatherId) {
 
-        String weatherUrl="http://guolin.tech/api/weather?cityid="+weatherId+"&key=a6bcbc2a587b458ca08fcd2f8a075af0";
+        String weatherUrl="http://guolin.tech/api/weather?cityid="
+                +weatherId+"&key=a6bcbc2a587b458ca08fcd2f8a075af0";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
@@ -225,5 +228,7 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent=new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 }
